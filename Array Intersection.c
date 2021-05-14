@@ -18,7 +18,7 @@ int main()
     int *new_its = (int *)malloc(sizeof(int)*SIZE);
     int *old_its = (int *)malloc(sizeof(int)*SIZE);
     char element;
-    int k, num, old_top=0, new_top=0, char_num_top=0, count=0;
+    int k, num, old_top=0, new_top=0, char_num_top=0, count=0, duplicated=0;
     scanf("%d", &k);
 
     while (scanf("%c", &element) != EOF){
@@ -33,6 +33,20 @@ int main()
         else if (element == ' ') {
             char_num[char_num_top] = '\0'; 
             num = atoi(char_num);
+            duplicated = 0;
+            
+            for (int i=0; i<new_top; ++i){
+                if (num == new_its[i]) {
+                    duplicated = 1;
+                    free(char_num);
+                    char_num = (char *)malloc(sizeof(char)*SIZE2);
+                    char_num_top = 0;
+                    break;
+                }
+            }
+            if (duplicated) continue;
+            
+            
             
             if (count == 1) new_its[new_top++] = num; // first array
             else{
@@ -53,13 +67,10 @@ int main()
         }
     }
     
-    qsort(new_its, new_top, sizeof(int), compare);
-    int last = INT_MAX;
-    for (int i=0; i<new_top; ++i){
-        if (new_its[i] != last){ 
-            printf("%d ", new_its[i]);
-            last = new_its[i];
-        }
+    qsort(old_its, old_top, sizeof(int), compare);
+    
+    for (int i=0; i<old_top; ++i){
+        printf("%d ", old_its[i]);
     }
     
     return 0;
